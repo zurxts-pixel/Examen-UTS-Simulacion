@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador de Examen UTS — Admisión 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- PANTALLA DE INICIO -->
+<div id="startScreen" class="screen active">
+  <div class="start-container">
+    <div class="logo-badge">🎓</div>
+    <h1>Simulador de Examen</h1>
+    <p class="subtitle">Universidad Tecnológica — Admisión 2026</p>
+    <div class="info-cards">
+      <div class="info-card">
+        <span class="info-icon">📝</span>
+        <span class="info-label">100 Preguntas</span>
+      </div>
+      <div class="info-card">
+        <span class="info-icon">🧘</span>
+        <span class="info-label">Sin límite de tiempo</span>
+      </div>
+      <div class="info-card">
+        <span class="info-icon">📊</span>
+        <span class="info-label">4 Áreas</span>
+      </div>
+    </div>
+    <div class="categories-preview">
+      <div class="cat-pill math">🔢 Matemáticas (26)</div>
+      <div class="cat-pill reading">📖 Comprensión Lectora (24)</div>
+      <div class="cat-pill logic">🧩 Pensamiento Analítico (26)</div>
+      <div class="cat-pill science">🔬 Ciencias Experimentales (24)</div>
+    </div>
+    <div class="name-input-group">
+      <label for="studentName">Tu nombre:</label>
+      <input type="text" id="studentName" placeholder="Escribe tu nombre aquí..." autocomplete="off">
+    </div>
+    <button id="startBtn" class="btn-primary" onclick="startExam()">
+      Comenzar Examen <span class="arrow">→</span>
+    </button>
+  </div>
+</div>
+
+<!-- PANTALLA DE EXAMEN -->
+<div id="examScreen" class="screen">
+  <header class="exam-header">
+    <div class="header-left">
+      <span class="header-logo">🎓</span>
+      <span class="header-title">Examen UTS</span>
+    </div>
+    <div class="header-center"></div>
+    <div class="header-right">
+      <span id="progressText">1 / 50</span>
+    </div>
+  </header>
+
+  <div class="progress-bar-container">
+    <div id="progressBar" class="progress-bar" style="width: 2%"></div>
+  </div>
+
+  <main class="exam-main">
+    <div class="question-card">
+      <div class="question-meta">
+        <span id="categoryBadge" class="category-badge math">🔢 Matemáticas</span>
+        <span id="questionNumber" class="q-number">Pregunta 1 de 50</span>
+      </div>
+      <div id="questionText" class="question-text"></div>
+      <div id="optionsContainer" class="options-container"></div>
+    </div>
+
+    <div class="nav-buttons">
+      <button id="prevBtn" class="btn-nav" onclick="prevQuestion()" disabled>← Anterior</button>
+      <div class="question-dots" id="questionDots"></div>
+      <button id="nextBtn" class="btn-nav" onclick="nextQuestion()">Siguiente →</button>
+    </div>
+
+    <button id="submitBtn" class="btn-submit hidden" onclick="submitExam()">
+      📋 Finalizar Examen
+    </button>
+  </main>
+</div>
+
+<!-- PANTALLA DE RESULTADOS -->
+<div id="resultsScreen" class="screen">
+  <div class="results-container">
+    <div class="results-header">
+      <div class="score-circle">
+        <svg viewBox="0 0 120 120">
+          <circle class="score-bg" cx="60" cy="60" r="54"/>
+          <circle id="scoreCircle" class="score-fill" cx="60" cy="60" r="54"/>
+        </svg>
+        <div class="score-text">
+          <span id="scorePercent">0%</span>
+        </div>
+      </div>
+      <h2 id="resultsTitle">Resultados</h2>
+      <p id="resultsSubtitle" class="results-sub"></p>
+      <div class="score-stats">
+        <div class="stat correct"><span id="correctCount">0</span><label>Correctas</label></div>
+        <div class="stat incorrect"><span id="incorrectCount">0</span><label>Incorrectas</label></div>
+        <div class="stat unanswered"><span id="unansweredCount">0</span><label>Sin responder</label></div>
+      </div>
+    </div>
+
+    <div class="category-breakdown">
+      <h3>Desglose por Área</h3>
+      <div id="categoryBreakdown" class="breakdown-grid"></div>
+    </div>
+
+    <div class="review-section">
+      <h3>Revisión de Respuestas</h3>
+      <div class="filter-buttons">
+        <button class="filter-btn active" onclick="filterReview('all')">Todas</button>
+        <button class="filter-btn" onclick="filterReview('incorrect')">❌ Incorrectas</button>
+        <button class="filter-btn" onclick="filterReview('correct')">✅ Correctas</button>
+      </div>
+      <div id="reviewList" class="review-list"></div>
+    </div>
+
+    <button class="btn-primary" onclick="restartExam()">🔄 Reintentar Examen</button>
+  </div>
+</div>
+
+<!-- MODAL CONFIRMACIÓN -->
+<div id="confirmModal" class="modal hidden">
+  <div class="modal-content">
+    <h3>⚠️ ¿Finalizar examen?</h3>
+    <p id="modalText"></p>
+    <div class="modal-buttons">
+      <button class="btn-nav" onclick="closeModal()">Regresar</button>
+      <button class="btn-submit" onclick="confirmSubmit()">Sí, finalizar</button>
+    </div>
+  </div>
+</div>
+
+<script src="questions.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
